@@ -1,25 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import { useCountdown } from "react-countdown-circle-timer";
+import { BsSkipStart } from "react-icons/bs";
+import { IoMdAdd } from "react-icons/io";
+import axios from "axios";
+import "./App.css";
 
-function App() {
+const App = () => {
+  const [val, setVal] = useState(15);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="parent">
+      <CountdownCircleTimer
+        isPlaying
+        duration={val}
+        colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+        colorsTime={[7, 5, 2, 0]}
+      >
+        {({ remainingTime }) => {
+          const minutes = Math.floor(remainingTime / 60);
+          const seconds = remainingTime % 60;
+
+          return `${minutes < 10 ? "0" + minutes : minutes}:${
+            seconds < 10 ? "0" + seconds : seconds
+          }`;
+        }}
+      </CountdownCircleTimer>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginTop: "2rem",
+        }}
+      >
+        <button
+          onClick={() => setVal((v) => v + 10)}
+          style={{ marginRight: "4rem" }}
+          className="button-11"
         >
-          Learn React
-        </a>
-      </header>
+          <IoMdAdd style={{ marginRight: "4px" }} /> 10 sec
+        </button>
+        <button className="button-11" onClick={() => setVal(0)}>
+          <BsSkipStart style={{ marginRight: "4px" }} /> skip
+        </button>
+      </div>
     </div>
   );
-}
+};
 
 export default App;
